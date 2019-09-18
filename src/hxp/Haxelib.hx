@@ -511,8 +511,12 @@ class Haxelib {
 				
 			// }
 			
-			return System.runProcess (path, command, args, waitForOutput, safeExecute, ignoreErrors, print, returnErrorValue);
-			
+			if (Sys.systemName() == 'Windows') {
+				// TODO: Hack for lix
+				return new sys.io.Process('cmd.exe /c haxelib.cmd ' + args.join(' '), null).stdout.readAll().toString(); 
+			} else {
+				return System.runProcess (path, command, args, waitForOutput, safeExecute, ignoreErrors, print, returnErrorValue);
+			}
 		}
 		
 	}
